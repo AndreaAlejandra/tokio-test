@@ -57,7 +57,7 @@ public class CustomerController {
 	@PostMapping
 	public void add(@RequestBody Customer newCustomer) {
 		
-		if(newCustomer != null && !newCustomer.getName().trim().isEmpty() && !newCustomer.getEmail().trim().isEmpty()) {
+		if(service.validateCustomer(newCustomer)) {
 			service.addCustomer(newCustomer);
 		}
 	}
@@ -70,7 +70,7 @@ public class CustomerController {
 	@PatchMapping("/{id}")
 	public Customer update(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
 		
-		if(updatedCustomer != null && !updatedCustomer.getName().trim().isEmpty() && !updatedCustomer.getEmail().trim().isEmpty()) {
+		if(service.validateCustomer(updatedCustomer)) {
 			return service.updateById(id, updatedCustomer)
 					.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found"));
 		}

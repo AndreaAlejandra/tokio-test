@@ -1,6 +1,9 @@
 package com.example.api.domain;
 
+import java.util.List;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +26,10 @@ public class Customer {
 	@NotEmpty
 	@Email
 	private String email;
+	
+	@ElementCollection
+	@NotEmpty
+	private List<String> addresses;
 
 	public Long getId() {
 		return id;
@@ -46,6 +53,14 @@ public class Customer {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<String> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<String> addresses) {
+		this.addresses = addresses;
 	}
 
 }

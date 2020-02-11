@@ -52,4 +52,10 @@ public class CustomerService {
 		
 		return customer;
 	}
+	
+	public Boolean validateCustomer(Customer customer) {
+		
+		Boolean isValid = customer != null && !customer.getName().trim().isEmpty() && !customer.getEmail().trim().isEmpty() && customer.getAddresses().size() != 0;
+		return isValid;
+	}
 }
