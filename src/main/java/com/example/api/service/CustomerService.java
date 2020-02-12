@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.example.api.domain.Customer;
 import com.example.api.repository.CustomerRepository;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 @Service
 public class CustomerService {
@@ -55,7 +58,23 @@ public class CustomerService {
 	
 	public Boolean validateCustomer(Customer customer) {
 		
-		Boolean isValid = customer != null && !customer.getName().trim().isEmpty() && !customer.getEmail().trim().isEmpty() && customer.getAddresses().size() != 0;
+		Boolean isValid = customer != null && !customer.getName().trim().isEmpty() && !customer.getEmail().trim().isEmpty() && customer.getAddresses() != null;
 		return isValid;
+	}
+	
+	public String getAddressFromCep(String cep) {
+		
+		String url = String.format("http://viacep.com.br/ws/%s/json", cep);
+		RestTemplate restTemplate = new RestTemplate();
+		
+		String result = restTemplate.getForObject(url, String.class);
+		
+		JsonObject resultJson = new Gson().fromJson(result, JsonObject.class);
+		String address = resultJson.get("logradouro").toString();
+		
+		address = address.replaceAll("^\"|\"$", "");
+		
+		return address;
+		
 	}
 }

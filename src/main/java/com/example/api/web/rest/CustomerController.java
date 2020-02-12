@@ -1,5 +1,6 @@
 package com.example.api.web.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,9 +56,15 @@ public class CustomerController {
 	}
 	
 	@PostMapping
-	public void add(@RequestBody Customer newCustomer) {
+	public void add(@RequestBody Customer newCustomer, @RequestParam Optional<String> cep) {
 		
 		if(service.validateCustomer(newCustomer)) {
+			if(cep.isPresent()) {
+				String address = service.getAddressFromCep(cep.get());
+				List<String> addresses = new ArrayList<String>();
+				addresses.add(address);
+				newCustomer.setAddresses(addresses);
+			}
 			service.addCustomer(newCustomer);
 		}
 	}
