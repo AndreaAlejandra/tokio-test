@@ -28,7 +28,6 @@ public class Customer {
 	private String email;
 	
 	@ElementCollection
-	@NotEmpty
 	private List<String> addresses;
 
 	public Long getId() {

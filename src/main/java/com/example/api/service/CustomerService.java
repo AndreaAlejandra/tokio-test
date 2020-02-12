@@ -50,6 +50,7 @@ public class CustomerService {
 		if(customer.isPresent()) {
 			customer.get().setName(updatedCustomer.getName());
 			customer.get().setEmail(updatedCustomer.getEmail());
+			customer.get().setAddresses(updatedCustomer.getAddresses());
 			repository.save(customer.get());
 		}
 		
